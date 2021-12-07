@@ -9,7 +9,10 @@ public class Moviment : MonoBehaviour
     public float hSpeed;
     public float rSpeed;
     public float gravity;
+    public float jumpDelay;
     public Vector3 move;
+
+    float aux;
 
     private void Start()
     {
@@ -35,7 +38,8 @@ public class Moviment : MonoBehaviour
             move *= hSpeed;
 
             if (Input.GetButton("Jump")){
-                move.y = vSpeed;
+                //move.y = vSpeed;
+                //move = StartJumpDelay(move);
             }
         }
 
@@ -43,4 +47,18 @@ public class Moviment : MonoBehaviour
 
         cc.Move(move * Time.deltaTime);
     }
+
+    Vector3 StartJumpDelay(Vector3 m)
+    {
+        aux = jumpDelay;
+        jumpDelay -= 1 * Time.deltaTime;
+        if(jumpDelay <= 0)
+        {
+            jumpDelay = aux;
+            m.y = vSpeed;
+            return m;
+        }
+        return m;
+    }
+    public bool GetGrounded() { return cc.isGrounded; }
 }
